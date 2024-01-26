@@ -1,21 +1,19 @@
-import { CorsHttpMethod, HttpApi } from "aws-cdk-lib/aws-apigatewayv2";
-import { Construct } from "constructs";
+import { CorsHttpMethod, HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
+import { Construct } from 'constructs';
+import { getConstructId } from '../../utils';
+import { ResourceName } from '../../constants/enum';
 
 export class ApigatewayStack extends Construct {
-  public httpApi: HttpApi
+  public httpApi: HttpApi;
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     // 👇 create our HTTP Api
-    this.httpApi = new HttpApi(this, 'http-api-example', {
-      description: 'HTTP API example',
+    this.httpApi = new HttpApi(this, getConstructId(ResourceName.HTTP_API), {
+      description: 'HTTP API',
       corsPreflight: {
-        allowHeaders: [
-          'Content-Type',
-          'X-Amz-Date',
-          'Authorization',
-          'X-Api-Key',
-        ],
+        allowHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key'],
         allowMethods: [
           CorsHttpMethod.OPTIONS,
           CorsHttpMethod.GET,
