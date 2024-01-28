@@ -1,0 +1,36 @@
+name: Pull Request Pipeline
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  environment:
+    runs-on: ubuntu-latest
+    outputs:
+      STAGE_NAME: ${{ steps.environment.outputs.STAGE_NAME }}
+    steps:
+      - name: Set environment
+        id: environment
+        run: |
+          if [[ $GITHUB_REF == 'refs/heads/master' ]]; then
+            echo "STAGE_NAME=prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "STAGE_NAME=dev" >> "$GITHUB_OUTPUT"
+          fi
+       
+  pull-request:
+    needs: [environment]
+
+    uses: ./.github/workflows/validation.yaml
+    with:
+      config-path: "config-path"
+    secrets:
+      STAGE_NAME: ${{ needs.environment.outputs.STAGE_NAME }}
+      CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
+      CDK_DEFAULT_REGION: ${{ secrets.CDK_DEFAULT_REGION }}
+      PROJECT_NAME: ${{ vars.PROJECT_NAME }}
+      QUALIFIER: ${{ vars.QUALIFIER }}
+      
