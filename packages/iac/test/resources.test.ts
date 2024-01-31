@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { IConstruct } from 'constructs';
-import * as Resources from '../cdk/lib/resources-stack';
+import * as Resources from '../cdk/lib/resources.stack';
 import { getConstructId } from '../cdk/utils';
 import { ResourceName } from '../cdk/constants/enum';
 
@@ -25,22 +25,15 @@ describe('Resources initial', () => {
   let template: Template;
 
   beforeAll(() => {
+    const resourceContructId = getConstructId('resources');
     app = new cdk.App(); // IConstruct
-    stack = new Resources.ResourcesStack(app, 'ResourcesStack');
+    stack = new Resources.ResourcesStack(app, resourceContructId);
     template = Template.fromStack(stack);
   });
 
-  it('API gateway initial', () => {
-    template.hasResourceProperties('AWS::ApiGatewayV2::Api', {
-      CorsConfiguration: {
-        AllowCredentials: true,
-        AllowHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key'],
-        AllowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-        AllowOrigins: ['http://localhost:3000'],
-      },
-      Description: 'HTTP API',
-      Name: getConstructId(ResourceName.HTTP_API),
-      ProtocolType: 'HTTP',
+  it('Bucker initial', () => {
+    template.hasResourceProperties('AWS::S3::Bucket', {
+      BucketName: getConstructId(ResourceName.BUCKET),
     });
   });
 });
