@@ -9,10 +9,14 @@
   },
   "author": "",
   "license": "ISC",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*",
+    "packages/layers/modules/nodejs"
+  ],
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "@types/node": "20.11.5",
+    "@types/aws-lambda": "8.10.132",
     "@swc/core": "1.3.106",
     "@swc/wasm": "1.3.106",
     "@swc/jest": "0.2.31",

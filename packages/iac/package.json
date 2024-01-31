@@ -1,8 +1,8 @@
 {
-  "name": "resources",
+  "name": "iac",
   "version": "0.1.0",
   "bin": {
-    "resources": "bin/resources.js"
+    "iac": "bin/iac.js"
   },
   "scripts": {
     "lint": "eslint \"{cdk,test}/**/*.ts\" --fix",
