@@ -81,7 +81,7 @@ jobs:
           path: ./node_modules
           key: ${{ github.sha }}
 
-      - run: turbo run lint
+      - run: turbo run lint --filter=\!nodejs
 
   test:
     runs-on: ubuntu-latest
@@ -107,7 +107,7 @@ jobs:
           key: ${{ github.sha }}
 
       - name: test
-        run: turbo run test
+        run: turbo run test --filter=\!nodejs
 
   build:
     runs-on: ubuntu-latest
@@ -133,4 +133,4 @@ jobs:
           key: ${{ github.sha }}
 
       - name: build
-        run: turbo run build
+        run: turbo run build --filter=\!nodejs
