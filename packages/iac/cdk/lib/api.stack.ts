@@ -21,10 +21,10 @@ export class ApiStack extends cdk.Stack {
     const getTodosLambda = new NodejsFunction(this, 'get-todos', {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: 'handler',
-      entry: path.join(__dirname, '/../../../server/src/lambda.entrypoint.ts'),
+      entry: path.join(__dirname, '/../../../server/dist/lambda.entrypoint.js'),
       layers: [layerStack.layerModules],
       bundling: {
-        preCompilation: true,
+        // preCompilation: true,
         esbuildArgs: {
           '--resolve-extensions': '.js',
         },
